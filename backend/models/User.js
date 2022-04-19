@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
+        select: false
     },
     street: {
         type: String,
@@ -61,7 +62,4 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-const users = new mongoose.model("users",userSchema);
-
-
-module.exports = users;
+export default mongoose.models.User || mongoose.model("User", userSchema)

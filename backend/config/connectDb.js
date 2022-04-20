@@ -5,8 +5,9 @@ const connectDb =  () => {
         console.log("Using existing connection")
         return;
     }
-    //Use new database connection
-     mongoose.connect(process.env.MONGO_SRV, {
+    // Use new database connection
+    const url='mongodb://localhost:27017/apaskideal'
+     mongoose.connect(url, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });

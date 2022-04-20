@@ -7,10 +7,12 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     phoneno: {
-        type: Number
+        type: Number,
+        unique: true
     },
     isVerified: {
         type: Boolean,

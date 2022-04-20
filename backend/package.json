@@ -17,5 +17,8 @@
     "mongoose": "^6.3.0",
     "shortid": "^2.2.16",
     "uuidv4": "^6.2.13"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

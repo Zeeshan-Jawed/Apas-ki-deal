@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const ObjectId = mongoose.Schema.Types;
+const Schema = mongoose.Schema;
 
 //creating schema of notification
 const notification_schema = new mongoose.Schema({
@@ -16,10 +16,12 @@ const notification_schema = new mongoose.Schema({
     image: {
         type: String,
     },
-    user_Id: {
-        type: ObjectId,
-        ref: "User"
-    },
+    // },
+    // user_Id: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'User'
+
+    // },
     content: {
         type: String,
         required: true,
@@ -39,4 +41,9 @@ const notification_schema = new mongoose.Schema({
 
 })
 
-export default mongoose.models.notification || mongoose.model("Notifiction", notification_schema)
+//creating collection
+const Notification = new mongoose.model('Notification', notification_schema)
+
+
+//export collection
+module.exports = { Notification };

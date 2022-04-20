@@ -27,4 +27,9 @@ const category_schema = new mongoose.Schema({
 
 })
 
-export default mongoose.models.category || mongoose.model("Category", category_schema)
+//creating collection
+const Category = new mongoose.model('Category', category_schema)
+
+
+//export collection
+module.exports = { Category };

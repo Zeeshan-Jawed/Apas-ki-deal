@@ -8,15 +8,14 @@ const views_schema = new mongoose.Schema({
         type: ObjectId,
         ref: "Advertise"
     },
-    ipAddress: {
+    ip_Address: {
         type: String,
         required: true,
-        trim: true
     },
     user_Agent: {
         type: String,
         required: true,
-        trim: true
+        
     }
 
 })

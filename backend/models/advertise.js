@@ -10,7 +10,7 @@ const advertise_schema = new mongoose.Schema({
     },
     ads_Detail_Id: {
         type: ObjectId,
-        ref: "Ads_Deatil"
+        ref: "Ads_Detail"
     },
     category_Id: {
         type: ObjectId,

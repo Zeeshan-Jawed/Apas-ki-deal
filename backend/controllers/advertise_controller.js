@@ -39,4 +39,52 @@ const addadvertise = async(req, res) => {
     }
 }
 
-module.exports = { getadvertise, addadvertise }
+//DELETE ADVERTISE
+const deleteadvertise = async(req, res) => {
+    try {
+        const del = await advertise.findByIdAndDelete(req.params.id)
+
+        res.send("Deleted Successfully")
+    } catch (e) {
+        console.log(e)
+        res.status(500).send(e) //server say jo error ata hay uskay liye
+            //500 port hogi OR update krtay waqt 500 port hogi
+    }
+}
+
+//UPDATE ADVERTISE
+
+const updateadvertise = async(req, res) => {
+    try {
+        const _id = req.params.id;
+        const updadv = await advertise.findByIdAndUpdate(_id, req.body, {
+            new: true //new updated value usi waqt mil jae uskay liye kia hay
+
+        })
+
+        res.status(201).send(updadv)
+    } catch (e) {
+        console.log(e)
+        res.status(500).send(e) //server say jo error ata hay uskay liye
+            //500 port hogi OR update krtay waqt 500 port hogi
+    }
+}
+
+//VIEW SPECIFIC ADVERTISE
+
+const specificadvertise = async(req, res) => {
+    try {
+        const _id = req.params.id;
+        const getspead = await advertise.findById({ _id: _id })
+            //({_id:_id})phela wala id database say uth karaye gay
+            //aur dosra wala ham khud dege
+            //params.id aur class/id means k dono ka name same id hona chahye
+        res.status(201).send(getspead) //koi bhi data insert krne k liye
+            //status uska 201 hona chahye
+    } catch (e) {
+        console.log(e)
+        res.status(400).send(e)
+    }
+}
+
+module.exports = { getadvertise, specificadvertise, updateadvertise, deleteadvertise, addadvertise }

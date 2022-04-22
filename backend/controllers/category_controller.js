@@ -14,7 +14,6 @@ const getcategories = async(req, res) => {
     }
 }
 
-
 //create category
 const addcategory = async(req, res) => {
     try {
@@ -28,8 +27,6 @@ const addcategory = async(req, res) => {
         res.status(400).send(e)
     }
 }
-
-
 
 //delete category
 const deletecategory = async(req, res) => {

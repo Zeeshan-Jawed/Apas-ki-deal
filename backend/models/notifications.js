@@ -42,7 +42,7 @@ const notification_schema = new mongoose.Schema({
 })
 
 //creating collection
-const Notification = new mongoose.model('Notification', notification_schema)
+const Notification = new mongoose.model('notifications', notification_schema)
 
 
 //export collection

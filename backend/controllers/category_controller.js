@@ -1,5 +1,5 @@
 const express = require('express');
-const { Category } = require("../models/category");
+const { Category } = require("../models/categories");
 const app = express();
 
 //View all categories

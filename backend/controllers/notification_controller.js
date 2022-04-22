@@ -1,5 +1,5 @@
 const express = require('express');
-const { Notification } = require("../models/notification");
+const { Notification } = require("../models/notifications");
 const app = express();
 
 

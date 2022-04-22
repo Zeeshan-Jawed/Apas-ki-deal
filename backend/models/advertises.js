@@ -1,28 +1,28 @@
 const mongoose = require('mongoose');
-const ObjectId = mongoose.Schema.Types;
+const Schema = mongoose.Schema;
 
 //creating schema of advertise
 const advertise_schema = new mongoose.Schema({
 
-    user_Id: {
-        type: ObjectId,
-        ref: "User"
-    },
-    ads_Detail_Id: {
-        type: ObjectId,
-        ref: "Ads_Detail"
-    },
-    category_Id: {
-        type: ObjectId,
-        ref: "Category"
-    },
+    // user_Id: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "User"
+    // },
+    // ads_Detail_Id: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Ads_Detail"
+    // },
+    // category_Id: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Category"
+    // },
     title: {
         type: String,
         required: true,
         trim: true
     },
     price: {
-        type: Number,
+        type: String,
         required: true,
         trim: true
     },
@@ -33,16 +33,11 @@ const advertise_schema = new mongoose.Schema({
     },
     location: {
         type: String,
-        required: true,
         trim: true
     },
     images: {
-        type: Array,
-        required: true,
-        pool: {
-            min: 1,
-            max: 10
-        }
+        type: String,
+        required: true
     },
     posted_On: {
         type: Date,
@@ -50,7 +45,6 @@ const advertise_schema = new mongoose.Schema({
     },
     updated_On: {
         type: Date,
-        required: true
     },
     is_Active: {
         type: Boolean,
@@ -58,7 +52,6 @@ const advertise_schema = new mongoose.Schema({
     },
     deleted_On: {
         type: Date,
-        required: true
     },
     is_Deleted: {
         type: Boolean,
@@ -68,4 +61,9 @@ const advertise_schema = new mongoose.Schema({
 
 })
 
-export default mongoose.models.advertise || mongoose.model("Advertise", advertise_schema)
+//creating collection
+const advertise = new mongoose.model('advertises', advertise_schema)
+
+
+//export collection
+module.exports = { advertise };

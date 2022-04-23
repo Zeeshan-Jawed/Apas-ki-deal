@@ -20,11 +20,19 @@ const getcategories = async(req, res) => {
     }
 }
 
-//create category
+const fs = require('fs')
+    //create category
 const addcategory = async(req, res) => {
     try {
+        // const addcat = new Category(req.body)
+        const path = 'backend/categoryimage/' + Date.now() + '.jpeg'
+        const imgdata = req.body.image;
+        const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, '');
+        fs.writeFileSync(path, base64Data, { encoding: 'base64' });
+        console.log(path);
+        req.body.image = path;
+        // console.log(addcat);
         const addcat = new Category(req.body)
-        console.log(addcat);
         let insertcat = await addcat.save();
         let helperfunction = () => {
             let response = res.statusCode;
@@ -74,8 +82,14 @@ const updatecategory = async(req, res) => {
             new: true //new updated value usi waqt mil jae uskay liye kia hay
 
         })
-        const resmessage = "Category has been updated"
-        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: updcat })
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "Category Is Updated";
+            let status = true;
+            let Data = updcat;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(500).send({ response: res.statusCode, status: false }) //server say jo error ata hay uskay liye
@@ -91,7 +105,14 @@ const cat_subcat = async(req, res) => {
         const _id = req.params.id;
         const get_cat_sub = await Category.find({ parent_Id: _id })
         const cat_name = await Category.find({ _id: _id }).select('name')
-        res.status(201).send({ response: res.statusCode, status: true, categoryname: cat_name, subcategoryname: get_cat_sub }) //ek sath agar ek say ziada cheezain send krni hay tw
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let status = true;
+            let Category_Data = cat_name;
+            let Sub_Category = get_cat_sub;
+            return res.status(201).send({ response: response, status: status, Category_Data: Category_Data, Sub_Category: Sub_Category })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(400).send({ response: res.statusCode, status: false })
@@ -104,8 +125,14 @@ const specific_category = async(req, res) => {
     try {
         const _id = req.params.id;
         const getcat1 = await Category.findById({ _id: _id })
-        const resmessage = "This is your Category"
-        res.status(201).send({ response: res.statusCode, status: true, message: resmessage, Data: getcat1 })
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "This is Your Category"
+            let status = true;
+            let Data = getcat1
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(400).send({ response: res.statusCode, status: false })
@@ -116,9 +143,15 @@ const specific_category = async(req, res) => {
 //View all availible categories
 const getavailiblecat = async(req, res) => {
     try {
-        const resmessage = "These are availible categories"
         const getcatav = await Category.find({ isActive: true })
-        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: getcatav })
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "This is Availible Categories"
+            let status = true;
+            let Data = getcatav;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(400).send({ response: res.statusCode, status: false })

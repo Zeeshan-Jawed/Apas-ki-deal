@@ -9,9 +9,14 @@ const app = express();
 const getadvertise = async(req, res) => {
     try {
         const getadv = await advertise.find({})
-        const resmessage = "These are all Advertise"
-            // res.status(400).send({ response: res.statusCode, status: false })
-        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: getadv })
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "This is All Advertise"
+            let status = true;
+            let Data = getadv;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
         console.log(res.statusCode)
     } catch (e) {
         console.log(e)
@@ -22,9 +27,15 @@ const getadvertise = async(req, res) => {
 //View all availible advertise
 const getavailible = async(req, res) => {
     try {
-        const resmessage = "These are availible Advertise"
         const getadv = await advertise.find({ is_Deleted: false })
-        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: getadv })
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "This is All Availible Advertise"
+            let status = true;
+            let Data = getadv;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(400).send({ response: res.statusCode, status: false })
@@ -44,8 +55,14 @@ const addadvertise = async(req, res) => {
         const addadv = new advertise(req.body)
         console.log(addadv);
         let insertadv = await addadv.save();
-        const resmessage = "The advertise has been Added"
-        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: insertadv })
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "Advertise is inserted"
+            let status = true;
+            let Data = insertadv;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(400).send({ response: res.statusCode, status: false })

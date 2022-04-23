@@ -26,8 +26,14 @@ const addcategory = async(req, res) => {
         const addcat = new Category(req.body)
         console.log(addcat);
         let insertcat = await addcat.save();
-        const resmessage = "Category is inserted"
-        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: insertcat }) //koi bhi data insert krne k liye
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "Category Is Created";
+            let status = true;
+            let Data = insertcat;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
 
     } catch (e) {
         console.log(e)
@@ -45,8 +51,14 @@ const deletecategory = async(req, res) => {
         const del = await Category.findByIdAndUpdate(_id, updel, {
             new: true
         })
-        const resmessage = "Category is Deleted"
-        res.send({ response: res.statusCode, message: resmessage, status: true, Data: del })
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "Category Is Deleted";
+            let status = true;
+            let Data = del;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(500).send({ response: res.statusCode, status: false })

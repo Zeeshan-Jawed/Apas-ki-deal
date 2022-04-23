@@ -52,7 +52,7 @@ const updateuser = async(req, res) => {
         })
         let helperfunction = () => {
             let response = res.statusCode;
-            let message = "User Is Updated";
+            let message = "User Has Been Updated";
             let status = true;
             let Data = upduser;
             return res.status(201).send({ response: response, message: message, status: status, Data: Data })
@@ -77,7 +77,7 @@ const deleteuser = async(req, res) => {
         })
         let helperfunction = () => {
             let response = res.statusCode;
-            let message = "User Is Deleted";
+            let message = "User Has been Deleted";
             let status = true;
             let Data = del;
             return res.status(201).send({ response: response, message: message, status: status, Data: Data })

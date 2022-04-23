@@ -73,8 +73,13 @@ const addadvertise = async(req, res) => {
 const deleteadvertise = async(req, res) => {
     try {
         const del = await advertise.findByIdAndDelete(req.params.id)
-        const resmessage = "The Advertise has been deleted"
-        res.send({ response: res.statusCode, message: resmessage, status: true })
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "Advertise Is Deleted"
+            let status = true;
+            return res.status(201).send({ response: response, message: message, status: status })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(500).send({ response: res.statusCode, status: false }) //server say jo error ata hay uskay liye
@@ -91,8 +96,14 @@ const updateadvertise = async(req, res) => {
             new: true //new updated value usi waqt mil jae uskay liye kia hay
 
         })
-        const resmessage = "The advertise has been updated"
-        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: updadv })
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "Advertise Is Updated"
+            let status = true;
+            let Data = updadv;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(500).send({ response: res.statusCode, status: false }) //server say jo error ata hay uskay liye
@@ -112,8 +123,14 @@ const isdeleted = async(req, res) => {
             new: true //new updated value usi waqt mil jae uskay liye kia hay
 
         })
-        const resmessage = "This advertise is deleted"
-        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: isdel })
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "Advertise Is Deleted"
+            let status = true;
+            let Data = isdel;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(500).send({ response: res.statusCode, status: false }) //server say jo error ata hay uskay liye
@@ -127,8 +144,13 @@ const specificadvertise = async(req, res) => {
     try {
         const _id = req.params.id;
         const getspead = await advertise.findById({ _id: _id })
-        const resmessage = "This is your Advertise"
-        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: getspead }) //koi bhi data insert krne k liye
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let status = true;
+            let Data = getspead;
+            return res.status(201).send({ response: response, status: status, Data: Data })
+        }
+        helperfunction()
 
     } catch (e) {
         console.log(e)

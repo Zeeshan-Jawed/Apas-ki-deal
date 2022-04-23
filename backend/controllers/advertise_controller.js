@@ -9,11 +9,25 @@ const app = express();
 const getadvertise = async(req, res) => {
     try {
         const getadv = await advertise.find({})
-        res.status(201).send(getadv) //koi bhi data insert krne k liye
-            //status uska 201 hona chahye
+        const resmessage = "These are all Advertise"
+            // res.status(400).send({ response: res.statusCode, status: false })
+        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: getadv })
+        console.log(res.statusCode)
     } catch (e) {
         console.log(e)
-        res.status(400).send(e)
+        res.status(400).send({ response: res.statusCode, status: false })
+    }
+}
+
+//View all availible advertise
+const getavailible = async(req, res) => {
+    try {
+        const resmessage = "These are availible Advertise"
+        const getadv = await advertise.find({ is_Deleted: false })
+        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: getadv })
+    } catch (e) {
+        console.log(e)
+        res.status(400).send({ response: res.statusCode, status: false })
     }
 }
 
@@ -27,15 +41,14 @@ const addadvertise = async(req, res) => {
         fs.writeFileSync(path, base64Data, { encoding: 'base64' });
         console.log(path);
         req.body.images = path;
-
         const addadv = new advertise(req.body)
         console.log(addadv);
         let insertadv = await addadv.save();
-        res.status(201).send(insertadv) //koi bhi data insert krne k liye
-            //status uska 201 hona chahye
+        const resmessage = "The advertise has been Added"
+        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: insertadv })
     } catch (e) {
         console.log(e)
-        res.status(400).send(e)
+        res.status(400).send({ response: res.statusCode, status: false })
     }
 }
 
@@ -43,11 +56,11 @@ const addadvertise = async(req, res) => {
 const deleteadvertise = async(req, res) => {
     try {
         const del = await advertise.findByIdAndDelete(req.params.id)
-
-        res.send("Deleted Successfully")
+        const resmessage = "The Advertise has been deleted"
+        res.send({ response: res.statusCode, message: resmessage, status: true })
     } catch (e) {
         console.log(e)
-        res.status(500).send(e) //server say jo error ata hay uskay liye
+        res.status(500).send({ response: res.statusCode, status: false }) //server say jo error ata hay uskay liye
             //500 port hogi OR update krtay waqt 500 port hogi
     }
 }
@@ -61,11 +74,32 @@ const updateadvertise = async(req, res) => {
             new: true //new updated value usi waqt mil jae uskay liye kia hay
 
         })
-
-        res.status(201).send(updadv)
+        const resmessage = "The advertise has been updated"
+        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: updadv })
     } catch (e) {
         console.log(e)
-        res.status(500).send(e) //server say jo error ata hay uskay liye
+        res.status(500).send({ response: res.statusCode, status: false }) //server say jo error ata hay uskay liye
+            //500 port hogi OR update krtay waqt 500 port hogi
+    }
+}
+
+//UPDATE ADVERTISE IS DELETED
+const isdeleted = async(req, res) => {
+    try {
+        const _id = req.params.id;
+        let updel = {
+            is_Deleted: true,
+            deleted_On: Date.now()
+        }
+        const isdel = await advertise.findByIdAndUpdate(_id, updel, {
+            new: true //new updated value usi waqt mil jae uskay liye kia hay
+
+        })
+        const resmessage = "This advertise is deleted"
+        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: isdel })
+    } catch (e) {
+        console.log(e)
+        res.status(500).send({ response: res.statusCode, status: false }) //server say jo error ata hay uskay liye
             //500 port hogi OR update krtay waqt 500 port hogi
     }
 }
@@ -76,15 +110,13 @@ const specificadvertise = async(req, res) => {
     try {
         const _id = req.params.id;
         const getspead = await advertise.findById({ _id: _id })
-            //({_id:_id})phela wala id database say uth karaye gay
-            //aur dosra wala ham khud dege
-            //params.id aur class/id means k dono ka name same id hona chahye
-        res.status(201).send(getspead) //koi bhi data insert krne k liye
-            //status uska 201 hona chahye
+        const resmessage = "This is your Advertise"
+        res.status(201).send({ response: res.statusCode, message: resmessage, status: true, Data: getspead }) //koi bhi data insert krne k liye
+
     } catch (e) {
         console.log(e)
-        res.status(400).send(e)
+        res.status(400).send({ response: res.statusCode, status: false })
     }
 }
 
-module.exports = { getadvertise, specificadvertise, updateadvertise, deleteadvertise, addadvertise }
+module.exports = { getadvertise, getavailible, isdeleted, specificadvertise, updateadvertise, deleteadvertise, addadvertise }

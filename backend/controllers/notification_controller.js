@@ -8,8 +8,14 @@ const getnotifications = async(req, res) => {
     try {
         const getnot = await Notification.find({})
         console.log(getnot)
-        res.status(201).send(getnot) //koi bhi data insert krne k liye
-            //status uska 201 hona chahye
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "These are all Notifications";
+            let status = true;
+            let Data = getnot;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(400).send(e)
@@ -23,8 +29,14 @@ const addnotification = async(req, res) => {
         const addnot = new Notification(req.body)
         console.log(addnot);
         let insertnot = await addnot.save();
-        res.status(201).send(insertnot) //koi bhi data insert krne k liye
-            //status uska 201 hona chahye
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "Notification has been created";
+            let status = true;
+            let Data = insertnot;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(400).send(e)
@@ -36,8 +48,13 @@ const addnotification = async(req, res) => {
 const deletenotification = async(req, res) => {
     try {
         const delnot = await Notification.findByIdAndDelete(req.params.id)
-
-        res.send("Delete Successfully")
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "Notification has been Deleted";
+            let status = true;
+            return res.status(201).send({ response: response, message: message, status: status })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(500).send(e) //server say jo error ata hay uskay liye
@@ -55,8 +72,14 @@ const updatenotification = async(req, res) => {
             new: true //new updated value usi waqt mil jae uskay liye kia hay
 
         })
-
-        res.status(201).send(updnot)
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "Notification has been Updated";
+            let status = true;
+            let Data = updnot;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(500).send(e) //server say jo error ata hay uskay liye
@@ -70,11 +93,13 @@ const specificnotification = async(req, res) => {
     try {
         const _id = req.params.id;
         const getnot1 = await Notification.findById({ _id: _id })
-            //({_id:_id})phela wala id database say uth karaye gay
-            //aur dosra wala ham khud dege
-            //params.id aur class/id means k dono ka name same id hona chahye
-        res.status(201).send(getnot1) //koi bhi data insert krne k liye
-            //status uska 201 hona chahye
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let status = true;
+            let Data = getnot1;
+            return res.status(201).send({ response: response, status: status, Data: Data })
+        }
+        helperfunction()
     } catch (e) {
         console.log(e)
         res.status(400).send(e)

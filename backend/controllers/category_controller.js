@@ -24,14 +24,12 @@ const fs = require('fs')
     //create category
 const addcategory = async(req, res) => {
     try {
-        // const addcat = new Category(req.body)
         const path = 'backend/categoryimage/' + Date.now() + '.jpeg'
         const imgdata = req.body.image;
         const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, '');
         fs.writeFileSync(path, base64Data, { encoding: 'base64' });
         console.log(path);
         req.body.image = path;
-        // console.log(addcat);
         const addcat = new Category(req.body)
         let insertcat = await addcat.save();
         let helperfunction = () => {
@@ -42,7 +40,6 @@ const addcategory = async(req, res) => {
             return res.status(201).send({ response: response, message: message, status: status, Data: Data })
         }
         helperfunction()
-
     } catch (e) {
         console.log(e)
         res.status(400).send({ response: res.statusCode, status: false })
@@ -96,7 +93,6 @@ const updatecategory = async(req, res) => {
             //500 port hogi OR update krtay waqt 500 port hogi
     }
 }
-
 
 //SUBCATEGORY ACCORDING TO CATEGORY
 

@@ -47,21 +47,25 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: 'customer',
-        enum: ["customer", "admin", "root",'seller']
+        enum: ["customer", "admin", "root", 'seller']
     },
-    created_on:{
+    created_on: {
         type: Date
     },
-    updated_on:{
+    updated_on: {
         type: Date
     },
-    deleted_on:{
+    deleted_on: {
         type: Date
     },
-    isDelete:{
+    isDelete: {
         type: Boolean,
         default: false
     }
 });
 
-export default mongoose.models.User || mongoose.model("User", userSchema)
+//creating collection
+const users = new mongoose.model('users', userSchema)
+
+//export collection
+module.exports = { users };

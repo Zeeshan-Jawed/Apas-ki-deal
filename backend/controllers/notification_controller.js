@@ -22,7 +22,6 @@ const getnotifications = async(req, res) => {
     }
 }
 
-
 //create notification
 const addnotification = async(req, res) => {
     try {
@@ -61,7 +60,6 @@ const deletenotification = async(req, res) => {
             //500 port hogi OR update krtay waqt 500 port hogi
     }
 }
-
 
 //UPDATE NOTIFICATION
 

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-mongoose.connect('mongodb://localhost:27017/apas-ki-deal', {
+mongoose.connect('mongodb+srv://admin:0gttYxEnNwLDm5MA@cluster0.w1hxk.mongodb.net/apaskideals?retryWrites=true&w=majority', {
     useNewUrlParser: true
 }).then(() => {
     console.log("Connection Successful")

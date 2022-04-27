@@ -2,16 +2,14 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
     name: {
-        type: String,
-        required: true
+        type: String
     },
     email: {
-        type: String,
-        required: true,
-        unique: true
+        type: String
     },
     phoneno: {
-        type: Number,
+        required: true,
+        type: String,
         unique: true
     },
     isVerified: {
@@ -57,6 +55,9 @@ const userSchema = new mongoose.Schema({
     },
     deleted_on: {
         type: Date
+    },
+    image: {
+        type: String
     },
     isDelete: {
         type: Boolean,

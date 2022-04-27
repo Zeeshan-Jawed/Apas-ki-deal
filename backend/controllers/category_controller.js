@@ -20,8 +20,9 @@ const getcategories = async(req, res) => {
     }
 }
 
-const fs = require('fs')
-    //create category
+const fs = require('fs');
+//create category
+
 const addcategory = async(req, res) => {
     try {
         const path = 'backend/categoryimage/' + Date.now() + '.jpeg'

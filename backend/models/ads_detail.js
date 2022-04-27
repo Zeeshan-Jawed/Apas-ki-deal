@@ -1,19 +1,24 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 //creating schema of ads detail
 const ads_detail_schema = new mongoose.Schema({
 
-    name: {
-        type: String,
-        required: true,
-        trim: true
+    advertise_id: {
+        type: Schema.Types.ObjectId,
+        ref: "advertises"
     },
-    value: {
-        type: String,
-        required: true,
-        trim: true
+    namekey: {
+        type: String
+    },
+    valuead: {
+        type: String
     }
 
 })
 
-export default mongoose.models.ads_detail || mongoose.model("Ads_Deatil", ads_detail_schema)
+//creating collection
+const advertise_detail = new mongoose.model('advertise_detail', ads_detail_schema)
+
+//export collection
+module.exports = { advertise_detail };

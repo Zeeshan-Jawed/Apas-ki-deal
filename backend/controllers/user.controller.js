@@ -1,6 +1,7 @@
 const express = require('express');
 const { users } = require("../models/users");
 const app = express();
+const fs = require("fs");
 
 //View all users
 const getusers = async(req, res) => {
@@ -24,17 +25,39 @@ const getusers = async(req, res) => {
 //create user
 const adduser = async(req, res) => {
     try {
-        const adduser = new users(req.body)
-        console.log(adduser);
-        let insertuser = await adduser.save();
-        let helperfunction = () => {
-            let response = res.statusCode;
-            let message = "User has been created";
-            let status = true;
-            let Data = insertuser;
-            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        if (!req.body.image) {
+            const adduser = new users(req.body)
+
+            console.log(adduser);
+            let insertuser = await adduser.save();
+            let helperfunction = () => {
+                let response = res.statusCode;
+                let message = "User has been created";
+                let status = true;
+                let Data = insertuser;
+                return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+            }
+            helperfunction()
+        } else {
+            const path = 'backend/userimage/' + Date.now() + '.jpeg'
+            const imgdata = req.body.image;
+            const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, '');
+            fs.writeFileSync(path, base64Data, { encoding: 'base64' });
+            console.log(path);
+            req.body.image = path;
+            const adduser = new users(req.body)
+            console.log(adduser);
+            let insertuser = await adduser.save();
+            let helperfunction = () => {
+                let response = res.statusCode;
+                let message = "User has been created";
+                let status = true;
+                let Data = insertuser;
+                return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+            }
+            helperfunction()
         }
-        helperfunction()
+
     } catch (e) {
         console.log(e)
         res.status(400).send(e)

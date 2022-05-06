@@ -16,11 +16,6 @@ const category_schema = new mongoose.Schema({
         type: Array,
         trim: true
     },
-    created_On: {
-        type: Date,
-        required: true,
-        trim: true
-    },
     image: {
         type: String
     }

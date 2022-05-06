@@ -9,7 +9,7 @@ router.get("/api/allcategories", getcategories)
 router.get("/api/category/:id", specific_category)
 
 //GET AVAILIBLE CATEGORY
-router.get("/api/availiblecategory/", getavailiblecat)
+router.get("/api/availiblecategory", getavailiblecat)
 
 //INSERT CATEGORY
 router.post("/api/addcategory", addcategory)

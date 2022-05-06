@@ -24,12 +24,12 @@ const fs = require('fs')
     //create category
 const addcategory = async(req, res) => {
     try {
-        const path = 'backend/categoryimage/' + Date.now() + '.jpeg'
-        const imgdata = req.body.image;
-        const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, '');
-        fs.writeFileSync(path, base64Data, { encoding: 'base64' });
-        console.log(path);
-        req.body.image = path;
+        // const path = 'backend/categoryimage/' + Date.now() + '.jpeg'
+        // const imgdata = req.body.image;
+        // const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, '');
+        // fs.writeFileSync(path, base64Data, { encoding: 'base64' });
+        // console.log(path);
+        // req.body.image = path;
         const addcat = new Category(req.body)
         let insertcat = await addcat.save();
         let helperfunction = () => {

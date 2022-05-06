@@ -1,7 +1,7 @@
 const express = require('express');
 const { advertise } = require("../models/advertises");
-const multer = require("multer");
-const upload = multer({ dest: '/uploads/' }).array('files', 2)
+//const multer = require("multer");
+//const upload = multer({ dest: '/uploads/' }).array('files', 2)
 const fs = require("fs");
 const app = express();
 

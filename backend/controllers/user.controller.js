@@ -60,6 +60,7 @@ const signUp = async (req, res) => {
 
 //Sign In
 const signIn = async (req, res) => {
+   
 
     try {
         const { email, user_number, password } = req.body;
@@ -71,12 +72,14 @@ const signIn = async (req, res) => {
         const user = await users.findOne({ email });
         console.log(user);
         if (user && (await bcrypt.compare(password, user.password))) {
-
+            console.log("sign in");
             const token = jwt.sign(
                 { user_id: user._id, user_number: user_number },
-                //"hardcodedTOKEN_KEY",
-                process.env.TOKEN_KEY,
-                {
+                
+            // "hardcodedTOKEN_KEY",
+              process.env.TOKEN_KEY,
+             
+              {
                     expiresIn: "24h",
                 }
             );
@@ -85,8 +88,9 @@ const signIn = async (req, res) => {
 
             // user
             return res.status(200).json(tokens);
+            
         }
-        return res.status(400).send("Invalid Credentials");
+       return res.status(400).send("Invalid Credentials");
     } catch (err) {
         console.log(err);
     }

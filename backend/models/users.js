@@ -8,12 +8,10 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
     },
     
     user_number: {
         type: Number,
-        unique: true
     }, 
     opt_code :{
        type: Number

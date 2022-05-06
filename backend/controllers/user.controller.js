@@ -87,9 +87,19 @@ const signIn = async (req, res) => {
             var tokens = token;
 
             // user
-            return res.status(200).json(tokens);
+            let helperfunction = () => {
+                let response = res.statusCode;
+                let messages = "login successful ";
+                let status = true;
+                let Data = {name: user.name ,tokens};
+                return res.status(200).send({ response: response, message: messages, status: status, Data: Data })
+            }
+    
+            helperfunction()
+           // return res.status(200).json(tokens);
             
         }
+        
        return res.status(400).send("Invalid Credentials");
     } catch (err) {
         console.log(err);
@@ -130,9 +140,9 @@ const verifySignup = async (req, res) => {
 
         let helperfunction = () => {
             let response = res.statusCode;
-            let messages = "messages";
+            let messages = "sign up successful";
             let status = true;
-            let Data = tokens;
+            let Data = {name: req.body.name,tokens};
             return res.status(201).send({ response: response, message: messages, status: status, Data: Data })
         }
 
@@ -173,7 +183,7 @@ var resendOtp = async (req, res) => {
                 expireIn: date
             }
         )
-        res.send("updated")
+       
     }
     else {
 
@@ -183,7 +193,7 @@ var resendOtp = async (req, res) => {
             expireIn: date,
             is_verified: false
         })
-        res.send("user created")
+       
     }
 
 
@@ -194,7 +204,7 @@ var resendOtp = async (req, res) => {
         url
     })
     console.log(send);
-    return res.send("success");
+    return res.send("user new otp sent to user provided phone number");
 
 }
 

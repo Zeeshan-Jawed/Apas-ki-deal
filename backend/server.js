@@ -1,5 +1,6 @@
 const express = require('express');
 require('./config/connectDb');
+const cors = require('cors');
 const bodyparser = require('body-parser');
  PORT = process.env.PORT || 3002
  //const ads_router = require('./routes/ads.routes')
@@ -14,6 +15,10 @@ app.use(bodyparser.urlencoded({
     limit: '50mb',
     parameterLimit: 100000,
     extended: false
+}));
+
+app.use(cors({
+    origin: 'http://localhost:3001/'
 }));
 app.use(express.json());
 app.use([user_router, adv_router, category_router, notification_router  , fav_router])

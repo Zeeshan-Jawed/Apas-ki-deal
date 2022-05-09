@@ -58,7 +58,7 @@ const signUp = async (req, res) => {
         let message = "OTP has been sent to customer phone number";
         let status = true;
 
-        return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        return res.status(201).send({ response: response, message: message, status: status })
     }
     helperfunction()
 }

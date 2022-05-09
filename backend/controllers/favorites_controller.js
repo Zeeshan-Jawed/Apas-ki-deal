@@ -26,7 +26,7 @@ const app = express();
 
 
 //View all fav
-const getfav = async (req, res) => {
+const newfav = async (req, res) => {
     try {
         var user_id = req.body.user_id;
         var ad_id = req.body.ad_id;
@@ -40,7 +40,15 @@ const getfav = async (req, res) => {
                 user_id: user_id,
                 ad_id: ad_id
             });
-            return res.send("created")
+            let helperfunction = () => {
+                let response = res.statusCode;
+                let messages = "fav created";
+                let status = true;
+                let Data = {}
+                return res.status(200).send({ response: response, message: messages, status: status })
+            }
+    
+            helperfunction()
         }
         else {
 
@@ -49,7 +57,15 @@ const getfav = async (req, res) => {
                     fav_id: fave._id
                 }
             })
-            return res.send(" Deleted");
+            let helperfunction = () => {
+                let response = res.statusCode;
+                let messages = "fav delete";
+                let status = true;
+                let Data = {}
+                return res.status(200).send({ response: response, message: messages, status: status })
+            }
+    
+            helperfunction()
 
         }
     } catch (e) {
@@ -58,4 +74,4 @@ const getfav = async (req, res) => {
     }
 }
 
-module.exports = { getfav  , insert }
+module.exports = { newfav  , insert }

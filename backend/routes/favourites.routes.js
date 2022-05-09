@@ -5,7 +5,7 @@ const getfav = require("../controllers/favorites_controller");
 
 const user_router = express.Router();
 
-user_router.get("/api/fav", getfav.getfav);
+user_router.get("/api/fav", getfav.newfav);
 user_router.post("/api/fav/insert", getfav.insert);
 
 

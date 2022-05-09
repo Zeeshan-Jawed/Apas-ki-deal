@@ -158,9 +158,9 @@ const getavailiblecat = async (req, res) => {
 const getParent = async (req , res) => {
     try {
         const getParent = await Category.find({
-          // " parent_Id" : { $eq:  null}
-           parent_Id :null
-           
+"parent_Id" : { $eq: null}
+          //"parent_Id" : null
+          
         })
 
 
@@ -182,8 +182,10 @@ const getParent = async (req , res) => {
 const getchildcat = async (req ,res) => {
     try {
         const getchildcat = await Category.find({
-            // "parent_Id" : { $ne: null}
-            
+            "parent_Id" : { $ne: null }
+          // parent_Id :null
+       
+           
         })
 
 

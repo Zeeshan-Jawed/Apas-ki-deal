@@ -67,6 +67,9 @@ const userSchema = new mongoose.Schema({
     isDelete: {
         type: Boolean,
         default: false
+    }, 
+    token :{
+        type : String
     }
 });
 

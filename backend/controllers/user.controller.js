@@ -6,9 +6,10 @@ const app = express();
 const axios = require('axios')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { generate } = require('shortid');
 require("dotenv").config();
-
-
+const nodemailer = require('nodemailer')
+const randomstring = require('randomstring')
 //const helper = require('../utils/helper')
 //View all users
 const getusers = async (req, res) => {
@@ -45,22 +46,22 @@ const signUp = async (req, res) => {
 
     var mobile_no = req.body.phoneno
     console.log(mobile_no);
-    var url = `https://bsms.telecard.com.pk/SMSportal/Customer/apikey.aspx?apikey=${process.env.otp_api}&msg=Your verification code is ${otpcode} from olx. &mobileno=${mobile_no}`
+    var url = `https://bsms.telecard.com.pk/SMSportal/Customer/apikey.aspx?apikey=${process.env.otp_api}&msg=Your verification code is ${otpcode} from apas ki deal . &mobileno=${mobile_no}`
     var send = await axios({
         method: 'post',
         url
     })
     console.log(url);
     console.log(send);
-    //  res.send("OTP has been sent to customer phone number");
-     let helperfunction = () => {
+    //res.send("OTP has been sent to customer phone number");
+    let helperfunction = () => {
         let response = res.statusCode;
         let message = "OTP has been sent to customer phone number";
         let status = true;
-        return res.status(201).send({ response: response, message: message, status: status})
+        return res.status(201).send({ response: response, message: message, status: status })
     }
     helperfunction()
-  
+
 }
 
 
@@ -68,7 +69,7 @@ const signUp = async (req, res) => {
 
 //Sign In
 const signIn = async (req, res) => {
-   
+
 
     try {
         const { email, phoneno, password } = req.body;
@@ -76,18 +77,18 @@ const signIn = async (req, res) => {
         if (!(email || phoneno && password)) {
             return res.status(400).send("All input is required");
         }
-       // console.log("SIGN");
+        // console.log("SIGN");
         const user = await users.findOne({ email });
         console.log(user);
         if (user && (await bcrypt.compare(password, user.password))) {
             console.log("sign in");
             const token = jwt.sign(
                 { user_id: user._id, phoneno: phoneno },
-                
-            // "hardcodedTOKEN_KEY",
-              process.env.TOKEN_KEY,
-             
-              {
+
+                // "hardcodedTOKEN_KEY",
+                process.env.TOKEN_KEY,
+
+                {
                     expiresIn: "24h",
                 }
             );
@@ -97,18 +98,18 @@ const signIn = async (req, res) => {
             // user
             let helperfunction = () => {
                 let response = res.statusCode;
-                let messages = "login successful ";
+                let messages = "Login Successful ";
                 let status = true;
-                let Data = {name: user.name ,tokens};
+                let Data = { name: user.name, tokens };
                 return res.status(200).send({ response: response, message: messages, status: status, Data: Data })
             }
-    
+
             helperfunction()
-           // return res.status(200).json(tokens);
-            
+            // return res.status(200).json(tokens);
+
         }
-        
-       return res.status(400).send("Invalid Credentials");
+
+        return res.status(400).send("Invalid Credentials");
     } catch (err) {
         console.log(err);
     }
@@ -148,9 +149,9 @@ const verifySignup = async (req, res) => {
 
         let helperfunction = () => {
             let response = res.statusCode;
-            let messages = "sign up successful";
+            let messages = "Sign-up Successful";
             let status = true;
-            let Data = {name: req.body.name,tokens};
+            let Data = { name: req.body.name, tokens };
             return res.status(201).send({ response: response, message: messages, status: status, Data: Data })
         }
 
@@ -191,7 +192,7 @@ var resendOtp = async (req, res) => {
                 expireIn: date
             }
         )
-       
+
     }
     else {
 
@@ -201,18 +202,18 @@ var resendOtp = async (req, res) => {
             expireIn: date,
             is_verified: false
         })
-       
+
     }
 
 
     var mobile_no = req.body.phoneno
-    var url = `https://bsms.telecard.com.pk/SMSportal/Customer/apikey.aspx?apikey=${process.env.otp_api}&msg=Your verification code is ${opt_resend} from olx. &mobileno=${mobile_no}`
+    var url = `https://bsms.telecard.com.pk/SMSportal/Customer/apikey.aspx?apikey=${process.env.otp_api}&msg=Your verification code is ${opt_resend} from apas ki deal . &mobileno=${mobile_no}`
     var send = await axios({
         method: 'post',
         url
     })
     console.log(send);
-    return res.send("user new otp sent to user provided phone number");
+    return res.send(" new otp sent to user provided phone number");
 
 }
 
@@ -307,4 +308,63 @@ const specificuser = async (req, res) => {
     }
 }
 
-module.exports = { getusers, specificuser, deleteuser, verifySignup, updateuser, signUp, resendOtp, signIn }
+
+//send mail 
+const sendEmail = async (email, token) => {
+    try {
+        const transporter = await nodemailer.transporter({
+            host: process.env.HOST,
+            service: process.env.SERVICE,
+            port: 587,
+            secure: true,
+            auth: {
+                user: process.env.email,
+                pass: process.env.password,
+            },
+        });
+        const mail = {
+            from: process.env.email,
+            to: email,
+            subject: " for mail ",
+            text: text
+        }
+
+    } catch (error) {
+        res.send(error)
+    }
+
+}
+
+
+
+const resetPassword = async (req, res) => {
+
+    try {
+        const email = req.body.email;
+        const userEmail = await users.findOne({ email: email })
+        if (userEmail) {
+
+            if (userEmail_is_verified === 0) {
+                res.send("please verify your email")
+            } else {
+                const randomString = randomstring.generate();
+                const updateString = await users.updateOne(
+                    {
+                        email: email
+                    },
+                    { $set: { token: randomString } }
+                );
+            }
+        } else {
+            res.send("user email is incorrect")
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.send("error");
+
+    }
+}
+
+
+module.exports = { getusers, specificuser, deleteuser, verifySignup, updateuser, signUp, resendOtp, signIn, resetPassword }

@@ -5,16 +5,16 @@ const category_schema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        trim: true
+        unique: true
+
     },
     isActive: {
         type: Boolean,
-        required: true,
-        trim: true
+        default: true
     },
     parent_Id: {
         type: Array,
-        trim: true
+
     },
     image: {
         type: String

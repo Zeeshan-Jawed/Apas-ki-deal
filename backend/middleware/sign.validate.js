@@ -18,7 +18,7 @@ checkDuplicateEmail = async (req, res, next) => {
 
 
 checkMissingField = (req, res, next) => {
-    if (!req.body.email && req.body.user_number) {
+    if (!req.body.email && req.body.phoneno) {
         return res.status(404).send({ response: 404, message: "Invalid request, email or phone number is required", status: true })
 
     }

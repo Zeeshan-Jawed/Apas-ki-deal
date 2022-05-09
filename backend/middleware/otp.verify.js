@@ -5,7 +5,7 @@ verification =async (req, res, next) => {
     var date  =new Date().getTime() / 1000;
     console.log(date);
     let data = await otp.findOne({
-        user_number: req.body.user_number,
+        phoneno: req.body.phoneno,
         is_verified: false,
         otp_code: req.body.otp_code,
         expireIn: { $gte: date }

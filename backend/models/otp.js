@@ -2,7 +2,7 @@
             const mongoose = require("mongoose");
 
             const userSchema = new mongoose.Schema({
-            user_number: {
+            phoneno: {
                 type: Number
             },
             otp_code:

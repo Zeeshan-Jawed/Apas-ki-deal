@@ -37,13 +37,13 @@ const signUp = async (req, res) => {
     let datetime = new Date().getTime() / 1000 + 300
     console.log(datetime);
     const data = await otp.create({
-        user_number: req.body.user_number,
+        phoneno: req.body.phoneno,
         otp_code: otpcode,
         expireIn: datetime,
         is_verified: false
     })
 
-    var mobile_no = req.body.user_number
+    var mobile_no = req.body.phoneno
     console.log(mobile_no);
     var url = `https://bsms.telecard.com.pk/SMSportal/Customer/apikey.aspx?apikey=${process.env.otp_api}&msg=Your verification code is ${otpcode} from olx. &mobileno=${mobile_no}`
     var send = await axios({
@@ -71,9 +71,9 @@ const signIn = async (req, res) => {
    
 
     try {
-        const { email, user_number, password } = req.body;
+        const { email, phoneno, password } = req.body;
 
-        if (!(email || user_number && password)) {
+        if (!(email || phoneno && password)) {
             return res.status(400).send("All input is required");
         }
        // console.log("SIGN");
@@ -82,7 +82,7 @@ const signIn = async (req, res) => {
         if (user && (await bcrypt.compare(password, user.password))) {
             console.log("sign in");
             const token = jwt.sign(
-                { user_id: user._id, user_number: user_number },
+                { user_id: user._id, phoneno: phoneno },
                 
             // "hardcodedTOKEN_KEY",
               process.env.TOKEN_KEY,
@@ -134,7 +134,7 @@ const verifySignup = async (req, res) => {
         console.log(insertuser);
 
         const token = jwt.sign(
-            { email: adduser.email, user_number: adduser.user_number },
+            { email: adduser.email, phoneno: adduser.phoneno },
             // "hardcodedTOKEN_KEY",
             process.env.TOKEN_KEY,
             {
@@ -177,7 +177,7 @@ var resendOtp = async (req, res) => {
     var date = new Date().getTime() / 1000
     let resend = await otp.findOne({
 
-        user_number: req.body.user_number,
+        phoneno: req.body.phoneno,
         is_verified: false
     })
 
@@ -196,7 +196,7 @@ var resendOtp = async (req, res) => {
     else {
 
         const insert = await otp.create({
-            user_number: req.body.user_number,
+            phoneno: req.body.phoneno,
             otp_code: opt_resend,
             expireIn: date,
             is_verified: false
@@ -205,7 +205,7 @@ var resendOtp = async (req, res) => {
     }
 
 
-    var mobile_no = req.body.user_number
+    var mobile_no = req.body.phoneno
     var url = `https://bsms.telecard.com.pk/SMSportal/Customer/apikey.aspx?apikey=${process.env.otp_api}&msg=Your verification code is ${opt_resend} from olx. &mobileno=${mobile_no}`
     var send = await axios({
         method: 'post',

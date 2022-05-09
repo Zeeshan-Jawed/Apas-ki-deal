@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     
-    user_number: {
+    phoneno: {
         type: Number,
     }, 
     opt_code :{

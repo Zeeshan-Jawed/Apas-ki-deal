@@ -18,7 +18,7 @@ app.use(bodyparser.urlencoded({
 }));
 
 app.use(cors({
-    origin: ['http://localhost:3001' , 'http://localhost:3000']
+    origin: ['http://localhost:3001']
 }));
 app.use(express.json());
 app.use([user_router, adv_router, category_router, notification_router  , fav_router])

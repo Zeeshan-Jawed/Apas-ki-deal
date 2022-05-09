@@ -3,7 +3,7 @@ const { Category } = require("../models/categories");
 const app = express();
 
 //View all categories
-const getcategories = async(req, res) => {
+const getcategories = async (req, res) => {
     try {
         const getcat = await Category.find({})
         let helperfunction = () => {
@@ -20,9 +20,10 @@ const getcategories = async(req, res) => {
     }
 }
 
-const fs = require('fs')
-    //create category
-const addcategory = async(req, res) => {
+const fs = require('fs');
+const { isNull } = require('util');
+//create category
+const addcategory = async (req, res) => {
     try {
         // const path = 'backend/categoryimage/' + Date.now() + '.jpeg'
         // const imgdata = req.body.image;
@@ -47,7 +48,7 @@ const addcategory = async(req, res) => {
 }
 
 //delete category
-const deletecategory = async(req, res) => {
+const deletecategory = async (req, res) => {
     try {
         const _id = req.params.id;
         let updel = {
@@ -72,7 +73,7 @@ const deletecategory = async(req, res) => {
 
 //Update Category
 
-const updatecategory = async(req, res) => {
+const updatecategory = async (req, res) => {
     try {
         const _id = req.params.id;
         const updcat = await Category.findByIdAndUpdate(_id, req.body, {
@@ -90,13 +91,13 @@ const updatecategory = async(req, res) => {
     } catch (e) {
         console.log(e)
         res.status(500).send({ response: res.statusCode, status: false }) //server say jo error ata hay uskay liye
-            //500 port hogi OR update krtay waqt 500 port hogi
+        //500 port hogi OR update krtay waqt 500 port hogi
     }
 }
 
 //SUBCATEGORY ACCORDING TO CATEGORY
 
-const cat_subcat = async(req, res) => {
+const cat_subcat = async (req, res) => {
     try {
         const _id = req.params.id;
         const get_cat_sub = await Category.find({ parent_Id: _id })
@@ -117,7 +118,7 @@ const cat_subcat = async(req, res) => {
 
 //Particular Category
 
-const specific_category = async(req, res) => {
+const specific_category = async (req, res) => {
     try {
         const _id = req.params.id;
         const getcat1 = await Category.findById({ _id: _id })
@@ -137,7 +138,7 @@ const specific_category = async(req, res) => {
 }
 
 //View all availible categories
-const getavailiblecat = async(req, res) => {
+const getavailiblecat = async (req, res) => {
     try {
         const getcatav = await Category.find({ isActive: true })
         let helperfunction = () => {
@@ -154,4 +155,52 @@ const getavailiblecat = async(req, res) => {
     }
 }
 
-module.exports = { getcategories, getavailiblecat, specific_category, cat_subcat, updatecategory, deletecategory, addcategory }
+const getParent = async (req , res) => {
+    try {
+        const getParent = await Category.find({
+          // " parent_Id" : { $eq:  null}
+           parent_Id :null
+           
+        })
+
+
+
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "These are parent Categories";
+            let status = true;
+            let Data = getParent;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
+    } catch (e) {
+        console.log(e)
+        return res.status(400).send({ response: res.statusCode, status: false })
+    }
+}
+
+const getchildcat = async (req ,res) => {
+    try {
+        const getchildcat = await Category.find({
+            // "parent_Id" : { $ne: null}
+            
+        })
+
+
+
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "These are child Categories";
+            let status = true;
+            let Data = getchildcat;
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
+    } catch (e) {
+        console.log(e)
+        return res.status(400).send({ response: res.statusCode, status: false })
+    }
+}
+
+
+module.exports = { getParent, getchildcat, getcategories, getavailiblecat, specific_category, cat_subcat, updatecategory, deletecategory, addcategory }

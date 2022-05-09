@@ -1,6 +1,6 @@
 const express = require("express");
 const router = new express.Router();
-const { getcategories, getavailiblecat, specific_category, cat_subcat, updatecategory, addcategory, deletecategory } = require("../controllers/category_controller")
+const { getcategories, getavailiblecat, specific_category, cat_subcat, updatecategory, addcategory, deletecategory ,getParent ,getchildcat } = require("../controllers/category_controller")
 
 //GET ALL CATEGORY
 router.get("/api/allcategories", getcategories)
@@ -15,7 +15,7 @@ router.get("/api/availiblecategory", getavailiblecat)
 router.post("/api/addcategory", addcategory)
 
 //DELETE CATEGORY
-router.put("/api/deletecategory/:id", deletecategory)
+router.delete("/api/deletecategory/:id", deletecategory)
 
 //UPDATE CATEGORY
 router.put("/api/updatecategory/:id", updatecategory)
@@ -23,4 +23,9 @@ router.put("/api/updatecategory/:id", updatecategory)
 //GET SUBCATEGORY IN TERMS OF CATEGORY
 router.get("/api/cat_subcat/:id", cat_subcat)
 
+
+router.get("/api/getParent",getParent )
+
+
+router.get("/api/getchild",getchildcat )
 module.exports = router

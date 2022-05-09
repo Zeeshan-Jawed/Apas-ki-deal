@@ -325,9 +325,19 @@ const sendEmail = async (email, token) => {
         const mail = {
             from: process.env.email,
             to: email,
-            subject: " for mail ",
-            text: text
+            subject: " for verification mail ",
+            html : '<p>' + email + 'please copy the link  <a href= localhost:3002//api/resetpassword?token='+token+ " > and reset your password"
+
         }
+        transporter.sendEmail(mail, function (error, info) {
+            if (error) {
+                console/log(error)
+            } else {
+                res.send("email has been sent" , info.response);
+            }
+
+        })
+
 
     } catch (error) {
         res.send(error)
@@ -337,7 +347,7 @@ const sendEmail = async (email, token) => {
 
 
 
-const resetPassword = async (req, res) => {
+const forgetPassword = async (req, res) => {
 
     try {
         const email = req.body.email;
@@ -353,7 +363,10 @@ const resetPassword = async (req, res) => {
                         email: email
                     },
                     { $set: { token: randomString } }
+               
                 );
+                sendEmail(userEmail.email , userEmail.randomString)
+                res.send("Check you mail")
             }
         } else {
             res.send("user email is incorrect")
@@ -367,4 +380,4 @@ const resetPassword = async (req, res) => {
 }
 
 
-module.exports = { getusers, specificuser, deleteuser, verifySignup, updateuser, signUp, resendOtp, signIn, resetPassword }
+module.exports = { getusers, specificuser, deleteuser, verifySignup, updateuser, signUp, resendOtp, signIn, forgetPassword }

@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-
+var Schema = mongoose.Schema; 
 //creating schema of category
 const category_schema = new mongoose.Schema({
+    
     name: {
         type: String,
         required: true,
@@ -13,8 +14,12 @@ const category_schema = new mongoose.Schema({
         default: true
     },
     parent_Id: {
-        type: Array,
-
+    
+     type : String
+     
+    //  type: Schema.Types.ObjectId,
+    //    ref: "Category"
+        
     },
     image: {
         type: String

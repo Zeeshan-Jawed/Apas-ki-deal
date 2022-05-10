@@ -27,5 +27,5 @@ router.get("/api/cat_subcat/:id", cat_subcat)
 router.get("/api/getParent",getParent )
 
 
-router.get("/api/getchild",getchildcat )
+router.get("/api/getChild",getchildcat )
 module.exports = router

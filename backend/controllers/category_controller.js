@@ -97,17 +97,18 @@ const updatecategory = async (req, res) => {
 
 //SUBCATEGORY ACCORDING TO CATEGORY
 
-const cat_subcat = async (req, res) => {
+const get_subCats = async (req, res) => {
     try {
-        const _id = req.params.id;
-        const get_cat_sub = await Category.find({ parent_Id: _id })
-        const cat_name = await Category.find({ _id: _id }).select('name')
+        const _id = req.query.cat_id;
+        const get_cat_sub = await Category.find({ parent_Id: _id, isActive: true })
+
         let helperfunction = () => {
             let response = res.statusCode;
             let status = true;
-            let Category_Data = cat_name;
-            let Sub_Category = get_cat_sub;
-            return res.status(201).send({ response: response, status: status, Category_Data: Category_Data, Sub_Category: Sub_Category })
+            let sub_cats_len = get_cat_sub.length;
+            let sub_cats = get_cat_sub
+            var data = {count: sub_cats_len, categories: sub_cats}
+            return res.status(201).send({ response: response, status: status, data  })
         }
         helperfunction()
     } catch (e) {
@@ -207,4 +208,42 @@ const getchildcat = async (req, res) => {
 }
 
 
-module.exports = { getParent, getchildcat, getcategories, getavailiblecat, specific_category, cat_subcat, updatecategory, deletecategory, addcategory }
+const getParentcount = async (req, res) => {
+    try {
+        const getParents = await Category.find({
+            "parent_Id": { $eq: null },
+            "isActive": true
+        
+
+        })
+        const count = await Category.count({
+            "parent_Id": { $eq: null },
+
+            
+             
+        })
+        // const select = await Category.SelectorAll({
+        //     parent_Id : req.body.parent_Id
+            
+        // })
+       
+
+
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "These are parent Categories";
+            let status = true;
+            let Data = {getParents , count ,countchlid}
+          
+            return res.status(201).send({ response: response, message: message, status: status, Data: Data })
+        }
+        helperfunction()
+    } catch (e) {
+        console.log(e)
+        return res.status(400).send({ response: res.statusCode, status: false })
+    }
+}
+
+
+
+module.exports = { getParentcount, getParent, getchildcat, getcategories, getavailiblecat, specific_category, get_subCats, updatecategory, deletecategory, addcategory }

@@ -16,6 +16,7 @@ const category_schema = new mongoose.Schema({
     parent_Id: {
      default: null,
      type : Schema.Types.ObjectId
+     
         
     },
     image: {

@@ -2,7 +2,7 @@ const express = require('express');
 require('./config/connectDb');
 const cors = require('cors');
 const bodyparser = require('body-parser');
- PORT = process.env.PORT || 3002
+ PORT = process.env.PORT || 3003
  //const ads_router = require('./routes/ads.routes')
  const fav_router = require('./routes/favourites.routes')
 const user_router = require('./routes/user.route');

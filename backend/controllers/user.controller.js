@@ -310,12 +310,12 @@ const specificuser = async (req, res) => {
 
 
 //send mail 
-const sendEmail = async (email, token) => {
+const sendEmail = async (email , token) => {
     try {
-        const transporter = await nodemailer.transporter({
-            host: process.env.HOST,
-            service: process.env.SERVICE,
-            port: 587,
+        const transporter = nodemailer.createTransport({
+            //host: process.env.HOST,
+            //service: process.env.SERVICE,
+            port: 3002,
             secure: true,
             auth: {
                 user: process.env.email,
@@ -326,21 +326,22 @@ const sendEmail = async (email, token) => {
             from: process.env.email,
             to: email,
             subject: " for verification mail ",
-            html : '<p>' + email + 'please copy the link  <a href= localhost:3002//api/resetpassword?token='+token+ " > and reset your password"
+            html: '<p>' + email + 'please copy the link  <a href= localhost:3002/api/resetpassword?token=' + token + " > and reset your password"
 
         }
-        transporter.sendEmail(mail, function (error, info) {
+        transporter.sendMail(mail, (error, info) => {
             if (error) {
-                console/log(error)
+                console.log(error);
             } else {
-                res.send("email has been sent" , info.response);
+                return res.send("email has been sent", info.response);
             }
 
         })
 
 
     } catch (error) {
-        res.send(error)
+         //return res.send(error)
+         console.log(error);
     }
 
 }
@@ -351,10 +352,10 @@ const forgetPassword = async (req, res) => {
 
     try {
         const email = req.body.email;
-        const userEmail = await users.findOne({ email: email })
+        const userEmail = await users.find({ email: email })
         if (userEmail) {
 
-            if (userEmail_is_verified === 0) {
+            if (!userEmail) {
                 res.send("please verify your email")
             } else {
                 const randomString = randomstring.generate();
@@ -363,9 +364,9 @@ const forgetPassword = async (req, res) => {
                         email: email
                     },
                     { $set: { token: randomString } }
-               
+
                 );
-                sendEmail(userEmail.email , userEmail.randomString)
+                sendEmail(userEmail.email, userEmail.randomString)
                 res.send("Check you mail")
             }
         } else {
@@ -380,4 +381,4 @@ const forgetPassword = async (req, res) => {
 }
 
 
-module.exports = { getusers, specificuser, deleteuser, verifySignup, updateuser, signUp, resendOtp, signIn, forgetPassword }
+module.exports = { getusers, specificuser, deleteuser, verifySignup, updateuser, signUp, resendOtp, signIn, forgetPassword ,sendEmail }

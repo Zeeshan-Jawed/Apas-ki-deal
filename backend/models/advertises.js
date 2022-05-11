@@ -20,36 +20,36 @@ const advertise_schema = new mongoose.Schema({
     },
     title: {
         type: String,
-       // required: true,
-       // trim: true
+        // required: true,
+        // trim: true
     },
     price: {
         type: String,
-       // required: true,
-       // trim: true
+        // required: true,
+        // trim: true
     },
     description: {
         type: String,
-       // required: true,
+        // required: true,
         //trim: true
     },
     location: {
         type: String,
-       // trim: true
+        // trim: true
     },
     images: {
         type: String,
         //required: true
     },
-    conidtion :{
-        type : String
+    condition: {
+        type: String
     },
     local_area: {
-type : String
+        type: String
     },
     posted_On: {
         default: moment().format("YYYY-MM-DD HH:mm:ss"),
- type: Date
+        type: Date
     },
     updated_On: {
         type: Date,
@@ -63,10 +63,10 @@ type : String
     },
     is_Deleted: {
         type: Boolean,
-        default:false
-       // required: true
+        default: false
+        // required: true
     },
-  
+
 
 })
 

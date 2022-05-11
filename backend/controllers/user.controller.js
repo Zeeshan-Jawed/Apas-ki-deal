@@ -333,7 +333,7 @@ const sendEmail = async (req, token) => {
             subject: 'Password Reset',
             // text: 'That was easy!',
            // const link = `${process.env.BASE_URL}/password-reset/${user._id}/${token.token}`;
-            html: `<a href="localhost:3001/forgetpassword?token=${token}"> please click the link and reset your password or visit this link http://localhost:3003/api/resetpassword?token=${token} </a>`
+            html: `<a href="localhost:3001/forgetpassword?token=${token}"> please click the link and reset your password or visit this link http://localhost:3001/forgetpassword?token=${token} </a>`
         }
 
         transporter.sendMail(mailOptions, function (error, info) {

@@ -1,6 +1,7 @@
 const express = require("express");
 const adv_router = new express.Router();
 const app = express();
+const verifyToken =require('../middleware/auth')
 
 const { getadvertise, getavailible, isdeleted, specificadvertise, deleteadvertise, updateadvertise, addadvertise , recentAds } = require("../controllers/advertise_controller")
 
@@ -11,7 +12,7 @@ adv_router.get("/api/alladvertise", getadvertise)
 adv_router.get("/api/specificadvertise/:id", specificadvertise)
 
 //INSERT ADVERTISE
-adv_router.post("/api/addadvertise", addadvertise)
+adv_router.post("/api/addadvertise",[verifyToken], addadvertise)
 
 //DELETE ADVERTISE
 adv_router.delete("/api/deleteadvertise/:id", deleteadvertise)

@@ -12,6 +12,8 @@ verification =async (req, res, next) => {
     }
     )
 
+    console.log(data)
+
     if (data) {
        // console.log(data);
         var up = await otp.updateOne({

@@ -85,7 +85,7 @@ const signIn = async (req, res) => {
         if (user && (await bcrypt.compare(password, user.password))) {
             console.log("sign in");
             const token = jwt.sign(
-                { user_id: user._id, phoneno: phoneno },
+                { _id: user._id,email: user.email ,  phoneno: phoneno },
 
                 // "hardcodedTOKEN_KEY",
                 process.env.TOKEN_KEY,
@@ -137,7 +137,7 @@ const verifySignup = async (req, res) => {
         console.log(insertuser);
 
         const token = jwt.sign(
-            { email: adduser.email, phoneno: adduser.phoneno },
+            { email: adduser.email, phoneno: adduser.phoneno, _id: adduser._id },
             // "hardcodedTOKEN_KEY",
             process.env.TOKEN_KEY,
             {
@@ -333,7 +333,7 @@ const sendEmail = async (req, token) => {
             subject: 'Password Reset',
             // text: 'That was easy!',
            // const link = `${process.env.BASE_URL}/password-reset/${user._id}/${token.token}`;
-            html: '<p>' + 'please copy the link  <a href=localhost:3003/api/resetpassword?token=' + token + " > and reset your password"
+            html: `<a href="localhost:3001/api/resetpassword?token=${token}"> please copy the link and reset your password or visit this link http://localhost:3003/api/resetpassword?token=${token} </a>`
         }
 
         transporter.sendMail(mailOptions, function (error, info) {

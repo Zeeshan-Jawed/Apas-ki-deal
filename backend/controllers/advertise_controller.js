@@ -56,6 +56,7 @@ const addadvertise = async (req, res) => {
         // console.log(path);
         // req.body.images = path;
         const addadv = new advertise(req.body)
+        addadv.user_Id = req.users._id
         //addadv.posted_On =  moment().format("YYYY-MM-DD HH:mm:ss");
        
         let insertadv = await addadv.save();

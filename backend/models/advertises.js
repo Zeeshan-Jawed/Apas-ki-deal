@@ -63,6 +63,7 @@ type : String
     },
     is_Deleted: {
         type: Boolean,
+        default:false
        // required: true
     },
   

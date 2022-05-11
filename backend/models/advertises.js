@@ -41,6 +41,12 @@ const advertise_schema = new mongoose.Schema({
         type: String,
         //required: true
     },
+    conidtion :{
+        type : String
+    },
+    local_area: {
+type : String
+    },
     posted_On: {
         default: moment().format("YYYY-MM-DD HH:mm:ss"),
  type: Date

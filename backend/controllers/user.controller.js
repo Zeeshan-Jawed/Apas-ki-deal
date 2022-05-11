@@ -332,6 +332,7 @@ const sendEmail = async (req, token) => {
             to: email,
             subject: 'Password Reset',
             // text: 'That was easy!',
+           // const link = `${process.env.BASE_URL}/password-reset/${user._id}/${token.token}`;
             html: '<p>' + 'please copy the link  <a href=localhost:3003/api/resetpassword?token=' + token + " > and reset your password"
         }
 

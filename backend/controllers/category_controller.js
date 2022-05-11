@@ -244,6 +244,32 @@ const getParentcount = async (req, res) => {
     }
 }
 
+const recent_Cat= async (req, res) => {
+    try {
+        const cat = await Category.find({})
+        .sort({ _id : -1 })
+            .limit(10)
+            // .then(() => {
+            //     res.send(ad)
+
+            // })
+            let helperfunction = () => {
+                let response = res.statusCode;
+                let status = true;
+                let Data = cat ;
+                return res.status(201).send({ response: response, status: status, Data: Data })
+            }
+            helperfunction()
+
+    }
 
 
-module.exports = { getParentcount, getParent, getchildcat, getcategories, getavailiblecat, specific_category, get_subCats, updatecategory, deletecategory, addcategory }
+    catch (error) {
+        console.log(error);
+        return res.send(error)
+    }
+}
+
+
+
+module.exports = { recent_Cat,  getParentcount, getParent, getchildcat, getcategories, getavailiblecat, specific_category, get_subCats, updatecategory, deletecategory, addcategory }

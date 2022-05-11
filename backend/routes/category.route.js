@@ -1,6 +1,6 @@
 const express = require("express");
 const router = new express.Router();
-const { getcategories, getavailiblecat, specific_category, get_subCats, updatecategory, addcategory, deletecategory ,getParent ,getchildcat , getParentcount} = require("../controllers/category_controller")
+const { getcategories, getavailiblecat, specific_category, get_subCats, updatecategory, addcategory, deletecategory ,getParent ,getchildcat , getParentcount , recent_Cat} = require("../controllers/category_controller")
 
 //GET ALL CATEGORY
 router.get("/api/allcategories", getcategories)
@@ -30,6 +30,10 @@ router.get("/api/getParent",getParent )
 router.get("/api/getChild", getchildcat )
 
 
+//GET Parentcount IN TERMS OF CATEGORY
 router.get('/api/getParentcount'  , getParentcount )
+
+//GET Recent_cat IN TERMS OF CATEGORY
+router.get("/api/recent_Cat", recent_Cat )
 
 module.exports = router

@@ -2,7 +2,7 @@ const express = require("express");
 const adv_router = new express.Router();
 const app = express();
 
-const { getadvertise, getavailible, isdeleted, specificadvertise, deleteadvertise, updateadvertise, addadvertise } = require("../controllers/advertise_controller")
+const { getadvertise, getavailible, isdeleted, specificadvertise, deleteadvertise, updateadvertise, addadvertise , recentAds } = require("../controllers/advertise_controller")
 
 //GET ALL ADVERTISE
 adv_router.get("/api/alladvertise", getadvertise)
@@ -24,5 +24,8 @@ adv_router.put("/api/isdeleted/:id", isdeleted)
 
 //AVAILIBLE
 adv_router.get("/api/allavailible", getavailible)
+
+// Recent Ads
+adv_router.get("/api/recentAds",  recentAds )
 
 module.exports = adv_router

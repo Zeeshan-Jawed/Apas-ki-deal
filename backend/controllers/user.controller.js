@@ -3,6 +3,8 @@ const { users } = require("../models/users");
 const { otp } = require('../models/otp')
 //const success = require('../utils/helper');
 const app = express();
+
+var smtpTransport = require('nodemailer-smtp-transport');
 const axios = require('axios')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -310,38 +312,40 @@ const specificuser = async (req, res) => {
 
 
 //send mail 
-const sendEmail = async (email , token) => {
+const sendEmail = async (req, token) => {
+    var email = req.body.email
+    console.log(req.body);
     try {
-        const transporter = nodemailer.createTransport({
-            //host: process.env.HOST,
-            //service: process.env.SERVICE,
-            //port: 3002,
-            secure: true,
-            auth: {
-                user: process.env.email,
-                pass: process.env.password,
-            },
-        });
-        const mail = {
-            from: process.env.email,
-            to: email,
-            subject: " for verification mail ",
-            html: '<p>' + email + 'please copy the link  <a href= localhost:3002/api/resetpassword?token=' + token + " > and reset your password"
 
+
+        var transporter = nodemailer.createTransport(smtpTransport({
+            service: 'gmail',
+            host: 'smtp.gmail.com',
+            auth: {
+                user: 'fizza.mangotech@gmail.com',
+                pass: 'Ubit123456789@'
+            }
+        }));
+
+        var mailOptions = {
+            from: 'fizza.mangotech@gmail.com',
+            to: email,
+            subject: 'Password Reset',
+            // text: 'That was easy!',
+            html: '<p>' + 'please copy the link  <a href=localhost:3003/api/resetpassword?token=' + token + " > and reset your password"
         }
-        transporter.sendMail(mail, (error, info) => {
+
+        transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 console.log(error);
             } else {
-                return res.send("email has been sent", info.response);
+                console.log('Email sent: ' + info.response);
             }
-
-        })
-
+        });
 
     } catch (error) {
-         //return res.send(error)
-         console.log(error);
+        //return res.send(error)
+        console.log(error);
     }
 
 }
@@ -358,20 +362,41 @@ const forgetPassword = async (req, res) => {
             if (!userEmail) {
                 res.send("please verify your email")
             } else {
-                const randomString = randomstring.generate();
-                const updateString = await users.updateOne(
-                    {
-                        email: email
-                    },
-                    { $set: { token: randomString } }
+                //     const randomString = randomstring.generate();
+                //     const updateString = await users.updateOne(
+                //         {
+                //             email: email
+                //         },
+                //         { $set: { token: randomString } }
 
+                //     );
+
+                const tokenss = jwt.sign(
+                    { user_id: userEmail._id },
+
+                    // "hardcodedTOKEN_KEY",
+                    process.env.TOKEN_KEY,
+
+                    {
+                        expiresIn: "2h",
+                    }
                 );
-                sendEmail(userEmail.email, userEmail.randomString)
+
+                var token = tokenss;
+                console.log(token);
+                sendEmail(req, token)
                 res.send("Check you mail")
             }
         } else {
             res.send("user email is incorrect")
         }
+        // let helperfunction = () => {
+        //     let response = res.statusCode;
+        //     let status = true;
+        //     let Data = userEmail;
+        //     return res.status(201).send({ response: response, status: status, Data: Data })
+        // }
+        // helperfunction()
 
     } catch (error) {
         console.log(error);
@@ -381,4 +406,40 @@ const forgetPassword = async (req, res) => {
 }
 
 
-module.exports = { getusers, specificuser, deleteuser, verifySignup, updateuser, signUp, resendOtp, signIn, forgetPassword ,sendEmail }
+// const resetPassword = async (req, res) => {
+
+
+
+const config = process.env;
+
+const resetPassword = async (req, res) => {
+    try {
+
+        const decoded = jwt.verify(req.body.token, config.TOKEN_KEY);
+        var user_id = decoded.user_id;
+        var mail = req.body.email
+        var password = req.body.password
+
+        var encryptedPassword = await bcrypt.hash(password, 10);
+        await users.updateOne({
+            user_id: user_id
+        },
+
+            {
+                password: encryptedPassword
+            }
+        );
+
+        console.log("reset password");
+        res.send("updated");
+
+
+    }
+    catch (error) {
+        console.log(error);
+    }
+
+}
+
+
+module.exports = { resetPassword, getusers, specificuser, deleteuser, verifySignup, updateuser, signUp, resendOtp, signIn, forgetPassword, sendEmail }

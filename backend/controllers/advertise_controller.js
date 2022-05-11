@@ -3,10 +3,13 @@ const { advertise } = require("../models/advertises");
 //const multer = require("multer");
 //const upload = multer({ dest: '/uploads/' }).array('files', 2)
 const fs = require("fs");
+const { users } = require('../models/users');
+const { on } = require('events');
 const app = express();
+var moment = require("moment")
 
 //View all advertise
-const getadvertise = async(req, res) => {
+const getadvertise = async (req, res) => {
     try {
         const getadv = await advertise.find({})
         let helperfunction = () => {
@@ -25,7 +28,7 @@ const getadvertise = async(req, res) => {
 }
 
 //View all availible advertise
-const getavailible = async(req, res) => {
+const getavailible = async (req, res) => {
     try {
         const getadv = await advertise.find({ is_Deleted: false })
         let helperfunction = () => {
@@ -43,17 +46,18 @@ const getavailible = async(req, res) => {
 }
 
 //create advertise
-const addadvertise = async(req, res) => {
+const addadvertise = async (req, res) => {
     try {
-       // const path = 'backend/advertiseimages/' + Date.now() + '.jpeg'
-       // const imgdata = req.body.images;
+        // const path = 'backend/advertiseimages/' + Date.now() + '.jpeg'
+        // const imgdata = req.body.images;
         // to convert base64 format into random filename
         //const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, '');
-       // fs.writeFileSync(path, base64Data, { encoding: 'base64' });
-       // console.log(path);
-       // req.body.images = path;
+        // fs.writeFileSync(path, base64Data, { encoding: 'base64' });
+        // console.log(path);
+        // req.body.images = path;
         const addadv = new advertise(req.body)
-        console.log(addadv);
+        //addadv.posted_On =  moment().format("YYYY-MM-DD HH:mm:ss");
+       
         let insertadv = await addadv.save();
         let helperfunction = () => {
             let response = res.statusCode;
@@ -70,7 +74,7 @@ const addadvertise = async(req, res) => {
 }
 
 //DELETE ADVERTISE
-const deleteadvertise = async(req, res) => {
+const deleteadvertise = async (req, res) => {
     try {
         const del = await advertise.findByIdAndDelete(req.params.id)
         let helperfunction = () => {
@@ -83,13 +87,13 @@ const deleteadvertise = async(req, res) => {
     } catch (e) {
         console.log(e)
         res.status(500).send({ response: res.statusCode, status: false }) //server say jo error ata hay uskay liye
-            //500 port hogi OR update krtay waqt 500 port hogi
+        //500 port hogi OR update krtay waqt 500 port hogi
     }
 }
 
 //UPDATE ADVERTISE
 
-const updateadvertise = async(req, res) => {
+const updateadvertise = async (req, res) => {
     try {
         const _id = req.params.id;
         const updadv = await advertise.findByIdAndUpdate(_id, req.body, {
@@ -107,12 +111,12 @@ const updateadvertise = async(req, res) => {
     } catch (e) {
         console.log(e)
         res.status(500).send({ response: res.statusCode, status: false }) //server say jo error ata hay uskay liye
-            //500 port hogi OR update krtay waqt 500 port hogi
+        //500 port hogi OR update krtay waqt 500 port hogi
     }
 }
 
 //UPDATE ADVERTISE IS DELETED
-const isdeleted = async(req, res) => {
+const isdeleted = async (req, res) => {
     try {
         const _id = req.params.id;
         let updel = {
@@ -134,13 +138,13 @@ const isdeleted = async(req, res) => {
     } catch (e) {
         console.log(e)
         res.status(500).send({ response: res.statusCode, status: false }) //server say jo error ata hay uskay liye
-            //500 port hogi OR update krtay waqt 500 port hogi
+        //500 port hogi OR update krtay waqt 500 port hogi
     }
 }
 
 //VIEW SPECIFIC ADVERTISE
 
-const specificadvertise = async(req, res) => {
+const specificadvertise = async (req, res) => {
     try {
         const _id = req.params.id;
         const getspead = await advertise.findById({ _id: _id })
@@ -157,5 +161,30 @@ const specificadvertise = async(req, res) => {
         res.status(400).send({ response: res.statusCode, status: false })
     }
 }
+const recentAds = async (req, res) => {
+    try {
+        const ad = await advertise.find({})
+            .sort({ posted_On: -1 })
+            .limit(10)
+            // .then(() => {
+            //     res.send(ad)
 
-module.exports = { getadvertise, getavailible, isdeleted, specificadvertise, updateadvertise, deleteadvertise, addadvertise }
+            // })
+            let helperfunction = () => {
+                let response = res.statusCode;
+                let status = true;
+                let Data = ad ;
+                return res.status(201).send({ response: response, status: status, Data: Data })
+            }
+            helperfunction()
+
+    }
+
+
+    catch (error) {
+        console.log(error);
+        return res.send(error)
+    }
+}
+
+module.exports = { getadvertise, getavailible, isdeleted, specificadvertise, updateadvertise, deleteadvertise, addadvertise, recentAds }

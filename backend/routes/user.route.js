@@ -1,6 +1,6 @@
 const express = require("express");
 const { getParencount } = require("../controllers/category_controller");
-const { getusers, specificuser, updateuser, deleteuser, verifySignup , signUp ,resendOtp, signIn , forgetPassword } = require("../controllers/user.controller");
+const { getusers, specificuser, updateuser, deleteuser, verifySignup , signUp ,resendOtp, signIn , forgetPassword ,resetPassword } = require("../controllers/user.controller");
 const user_router = express.Router();
 const validate = require("../middleware/otp.verify");
 const { checkMissingField } = require("../middleware/sign.validate");
@@ -14,8 +14,7 @@ user_router.post('/api/signUp' , signUp );
 user_router.post('/api/resendOtp' , resendOtp)
 user_router.post('/api/signIn'  , signIn)
 user_router.post('/api/forgetpassword' , forgetPassword)
-//user_router.post('/api/resetpassword' , resetpassword)
-
+user_router.post('/api/resetPassword'  , resetPassword)
 module.exports = user_router;
 
 

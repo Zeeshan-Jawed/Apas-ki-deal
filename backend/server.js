@@ -16,6 +16,8 @@ app.use(bodyparser.urlencoded({
     parameterLimit: 100000,
     extended: false
 }));
+app.use(express.static(__dirname + '../backend/controllers/advertise_controller.js'));
+
 
 app.use(cors({
     origin: ['http://localhost:3001' , 'http://localhost:3000']

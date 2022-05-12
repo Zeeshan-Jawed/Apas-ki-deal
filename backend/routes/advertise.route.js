@@ -1,6 +1,7 @@
 const express = require("express");
 const adv_router = new express.Router();
 const app = express();
+
 const verifyToken =require('../middleware/auth')
 
 const { getadvertise, getavailible, isdeleted, specificadvertise, deleteadvertise, updateadvertise, addadvertise , recentAds  , insertImage} = require("../controllers/advertise_controller")
@@ -31,6 +32,6 @@ adv_router.get("/api/recentAds",  recentAds )
 
 
 //Get image 
-adv_router.post("/api/insertImages" ,[verifyToken],  insertImage )
+adv_router.post("/api/insertImage" ,[verifyToken],  insertImage )
 
-module.exports = adv_router
+module.exports = adv_router 

@@ -16,7 +16,7 @@ app.use(bodyparser.urlencoded({
     parameterLimit: 100000,
     extended: false
 }));
-app.use(express.static(__dirname + '../backend/controllers/advertise_controller.js'));
+app.use('/backend/advertiseimages', express.static('backend/advertiseimages'));
 
 
 app.use(cors({

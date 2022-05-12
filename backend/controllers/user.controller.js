@@ -85,7 +85,7 @@ const signIn = async (req, res) => {
         if (user && (await bcrypt.compare(password, user.password))) {
             console.log("sign in");
             const token = jwt.sign(
-                { _id: user._id,email: user.email ,  phoneno: phoneno },
+                { _id: user._id, email: user.email, phoneno: phoneno },
 
                 // "hardcodedTOKEN_KEY",
                 process.env.TOKEN_KEY,
@@ -332,7 +332,7 @@ const sendEmail = async (req, token) => {
             to: email,
             subject: 'Password Reset',
             // text: 'That was easy!',
-           // const link = `${process.env.BASE_URL}/password-reset/${user._id}/${token.token}`;
+            // const link = `${process.env.BASE_URL}/password-reset/${user._id}/${token.token}`;
             html: `<a href="localhost:3001/forgetpassword?token=${token}"> please click the link and reset your password or visit this link http://localhost:3001/forgetpassword?token=${token} </a>`
         }
 
@@ -386,19 +386,21 @@ const forgetPassword = async (req, res) => {
                 var token = tokenss;
                 console.log(token);
                 sendEmail(req, token)
-                res.send("Check you mail")
+                // res.send("Check you mail")
+
+                let helperfunction = () => {
+                    let response = res.statusCode;
+                    let status = true;
+                    message = "Please check your mail"
+                    let Data = userEmail;
+                    return res.status(201).send({ message: message, response: response, status: status, Data: Data })
+                }
+                helperfunction()
             }
         } else {
             res.send("user email is incorrect")
-        }
-        // let helperfunction = () => {
-        //     let response = res.statusCode;
-        //     let status = true;
-        //     let Data = userEmail;
-        //     return res.status(201).send({ response: response, status: status, Data: Data })
-        // }
-        // helperfunction()
 
+        }
     } catch (error) {
         console.log(error);
         res.send("error");
@@ -432,7 +434,17 @@ const resetPassword = async (req, res) => {
         );
 
         console.log("reset password");
-        res.send("updated");
+        //res.send("updated");
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let status = true;
+            message = "updated"
+
+            return res.status(201).send({ message: message, response: response, status: status })
+        }
+        helperfunction()
+
+
 
 
     }

@@ -6,12 +6,16 @@ const fs = require("fs");
 const { users } = require('../models/users');
 const { on } = require('events');
 const app = express();
-var moment = require("moment")
+var moment = require("moment");
+const { Db } = require('mongodb');
 
 //View all advertise
 const getadvertise = async (req, res) => {
     try {
         const getadv = await advertise.find({})
+
+
+
         let helperfunction = () => {
             let response = res.statusCode;
             let message = "This is All Advertise"
@@ -61,6 +65,23 @@ const addadvertise = async (req, res) => {
         addadv.posted_On =  moment().format("YYYY-MM-DD HH:mm:ss");
        
         let insertadv = await addadv.save();
+        const join = await advertise.aggregate([
+                {
+                    "$lookup": {
+                        "from": "Categories",
+                        "localField": "name",
+                        "foreignField": "category_Id", 
+                        "as": "advertise list"
+                    }
+                },
+//{ "$match": { "resultingArray.name": "USA" } }
+    
+
+
+
+        ])
+console.log(join);
+
         let helperfunction = () => {
             let response = res.statusCode;
             let message = "Advertise is inserted"
@@ -211,5 +232,6 @@ catch(error){
 console.log(error);
 }
 }
+
 
 module.exports = { insertImage, getadvertise, getavailible, isdeleted, specificadvertise, updateadvertise, deleteadvertise, addadvertise, recentAds }

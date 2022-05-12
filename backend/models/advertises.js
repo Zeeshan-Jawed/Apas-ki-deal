@@ -18,6 +18,10 @@ const advertise_schema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: "Category"
     },
+    category_name: {
+        type: Schema.Types.String,
+        ref: "Category"
+    },
     title: {
         type: String,
         // required: true,

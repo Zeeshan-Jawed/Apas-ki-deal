@@ -1,7 +1,7 @@
 const express = require('express');
 const { advertise } = require("../models/advertises");
-//const multer = require("multer");
-//const upload = multer({ dest: '/uploads/' }).array('files', 2)
+const multer = require("multer");
+const upload = multer({ dest: '/uploads/' }).array('files', 2)
 const fs = require("fs");
 const { users } = require('../models/users');
 const { on } = require('events');
@@ -48,16 +48,17 @@ const getavailible = async (req, res) => {
 //create advertise
 const addadvertise = async (req, res) => {
     try {
-        // const path = 'backend/advertiseimages/' + Date.now() + '.jpeg'
-        // const imgdata = req.body.images;
+        // const path = 'backend/advertiseimages/' req.user._id + Date.now() + '.jpeg'
+        // const imgdata = req.body.image;
         // to convert base64 format into random filename
         //const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, '');
         // fs.writeFileSync(path, base64Data, { encoding: 'base64' });
-        // console.log(path);
-        // req.body.images = path;
+   
+       
         const addadv = new advertise(req.body)
-        addadv.user_Id = req.users._id
-        //addadv.posted_On =  moment().format("YYYY-MM-DD HH:mm:ss");
+        addadv.user_Id = req.user._id
+        console.log(addadv);
+        addadv.posted_On =  moment().format("YYYY-MM-DD HH:mm:ss");
        
         let insertadv = await addadv.save();
         let helperfunction = () => {
@@ -188,4 +189,27 @@ const recentAds = async (req, res) => {
     }
 }
 
-module.exports = { getadvertise, getavailible, isdeleted, specificadvertise, updateadvertise, deleteadvertise, addadvertise, recentAds }
+const  insertImage = async (req, res)=>{
+    try{
+       const path = 'backend/advertiseimages/' + req.user._id+"_"+ Date.now() + '.jpeg'
+        const imgdata = req.body.image;
+      //  to convert base64 format into random filename
+        var base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, '');
+        fs.writeFileSync(path, base64Data, { encoding: 'base64' });
+
+        let helperfunction = () => {
+            let response = res.statusCode;
+            let message = "image uploaded";
+            let status = true;
+            let Data = path ;
+            return res.status(201).send({message:message , response: response, status: status, Data: Data })
+        }
+        helperfunction()
+   
+}
+catch(error){
+console.log(error);
+}
+}
+
+module.exports = { insertImage, getadvertise, getavailible, isdeleted, specificadvertise, updateadvertise, deleteadvertise, addadvertise, recentAds }

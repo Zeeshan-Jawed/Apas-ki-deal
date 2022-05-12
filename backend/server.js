@@ -12,7 +12,7 @@ const notification_router = require('./routes/notification.routes');
 require('dotenv').config()
 const app = express();
 app.use(bodyparser.urlencoded({
-    limit: '50mb',
+    limit: '500mb',
     parameterLimit: 100000,
     extended: false
 }));
